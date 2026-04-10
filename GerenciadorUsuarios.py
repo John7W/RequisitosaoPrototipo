@@ -32,9 +32,9 @@ class GerenciadorUsuarios:
         
         print(f"Sucesso: {tipo.capitalize()} {username} cadastrado com ID {novo_usuario.id}.")
 
-    def realizar_login(self, email, senha):
+    def realizar_login(self, nome, senha):
         """Valida as credenciais para permitir o acesso rápido sem login repetido. [cite: 33, 53]"""
-        usuario_dados = self._buscar_por_email(email)
+        usuario_dados = self._buscar_por_usuario(nome)
         
         if usuario_dados and usuario_dados['senha'] == str(senha):
             print(f"\nLogin bem-sucedido! Bem-vindo(a), {usuario_dados['username']}.")
@@ -44,7 +44,7 @@ class GerenciadorUsuarios:
         print("\nErro: Email ou senha incorretos.")
         return None
 
-    def _buscar_por_email(self, email):
+    def _buscar_por_usuario(self, nome):
         """Método auxiliar para ler o CSV e encontrar um registro por email."""
         if not os.path.exists(self.arquivo_db):
             return None
@@ -52,6 +52,6 @@ class GerenciadorUsuarios:
         with open(self.arquivo_db, mode='r', encoding='utf-8') as f:
             leitor = csv.DictReader(f)
             for linha in leitor:
-                if linha['email'] == email:
+                if linha['email'] == nome:
                     return linha
         return None
